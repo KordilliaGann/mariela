@@ -1,0 +1,9 @@
+Team members: Michael Sanchez, Kordillia Gann, Nancy Gomez
+
+             two_a.txt    two_b.txt    % difference
+Mean        
+Variance     0.162013     0.177170     8.937066
+Standard     0.402509     0.420915     4.470766
+Avg Power    0.111615     0.103850     7.207205
+Avg Mag      0.226944     0.273091     18.457686
+Zero Cross   111          67           49.438202

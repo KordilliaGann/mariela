@@ -1,0 +1,131 @@
+#include <iostream>
+#include <fstream>
+#include <cmath>
+#include <iomanip>
+using namespace std;
+
+double mean(double a[], int n);
+double var(double a[], int n);
+double stdDev(double val);
+double avgPower(double a[], int n);
+double avgMagnitude(double a[], int n);
+int zeroCross(double a[], int n);
+double percentage(double a, double b);
+
+// Kori
+int main(){
+	ifstream finA, finB;
+	ofstream fout;
+	
+	const int SIZE = 1000;
+	double a[SIZE] = {0}, b[SIZE] = {0};
+	int aElements = 0, bElements = 0;
+	
+	fout.setf(ios::fixed);
+	fout.setf(ios::showpoint);
+	fout.precision(6);
+
+	finA.open("two_a.txt");
+	finB.open("two_b.txt");
+	fout.open("comparison.txt");
+
+	while(finA >> a[aElements]){
+		aElements++;
+	}
+	while(finB >> b[bElements]){
+		bElements++;
+	}
+	
+	double aVariance = var(a, aElements), bVariance = var(b, bElements);
+	double aStandard = stdDev(aVariance), bStandard = stdDev(bVariance);
+	double aPower = avgPower(a, aElements), bPower = avgPower(b, bElements);
+	double aMag = avgMagnitude(a, aElements), bMag = avgMagnitude(b, bElements);
+	int aZero = zeroCross(a, aElements), bZero = zeroCross(b, bElements);
+	
+	fout << "Team members: Michael Sanchez, Kordillia Gann, Nancy Gomez\n" << endl;
+	fout << setw(22) << "two_a.txt"
+		 << setw(13) << "two_b.txt"
+		 << setw(16) << "% difference" << endl;
+	fout.setf(ios::left);
+	fout << setw(12) << "Mean" << endl;
+	
+	fout << setw(13) << "Variance" << setw(13) << aVariance
+		 << setw(13) << bVariance << percentage(aVariance, bVariance) << endl;
+		 
+	fout << setw(13) << "Standard" << setw(13) << aStandard
+		 << setw(13) << bStandard << percentage(aStandard, bStandard) << endl;
+		 
+	fout << setw(13) << "Avg Power" << setw(13) << aPower
+		 << setw(13) << bPower << percentage(aPower, bPower) << endl;
+		 
+	fout << setw(13) << "Avg Mag" << setw(13) << aMag
+		 << setw(13) << bMag << percentage(aMag, bMag) << endl;
+	
+	fout << setw(13) << "Zero Cross" << setw(13) << aZero
+		 << setw(13) << bZero << percentage(aZero, bZero) << endl;
+	return 0;
+}
+// Kori
+double mean(double a[], int n){
+    double sum = 0;
+    for (int i = 0; i < n; i++)
+    {
+        sum = sum + abs(a[i]);
+    }
+    return (sum/n);
+}
+// Nancy
+double var(double a[], int n){
+	double sum = 0;
+	double avg = mean(a, n);
+	for (int i = 0; i < n; i++){
+		sum+= pow((a[i] - avg), 2);
+	}
+	return (sum/n);
+}
+// Nancy
+double stdDev(double val){
+	return sqrt(val);
+}
+// Nancy
+double avgPower(double a[], int n){
+	double total = 0;
+	for (int i = 0; i < n; i++){
+		total+=  pow(a[i],2);
+	}
+	return (total/n);
+}
+// Michael
+double avgMagnitude(double a[], int n){
+double sum = 0;
+	for (int i = 0; i < n; i++){
+		sum+= fabs(a[i]);
+	}
+	return (sum/n);
+}
+
+// Michael
+int zeroCross(double a[], int n){
+	int count = 0;
+	for(int i = 0; i < n; i++){
+		if(i != (n-1)){
+			if(a[i] > 0 && a[i+1] < 0)
+				count++;
+			else if(a[i] < 0 && a[i+1] > 0)
+				count++;
+		}
+		else if(a[i] == 0 && i != 0 && i != n-1){
+			if(a[i-1] > 0 && a[i+1] < 0)
+				count++;
+			else if(a[i-1] < 0 && a[i+1] > 0)
+				count++;
+		}	
+	}
+	return count;
+}
+double percentage(double a, double b){
+	return ((fabs(a-b) / ((a + b)/2)) * 100);
+}
+
+}
+
